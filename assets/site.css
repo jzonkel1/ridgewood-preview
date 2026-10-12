@@ -503,3 +503,10 @@ h2{text-wrap:balance}
 
 .prose .rev{margin-top:2rem;text-align:left}
 .cta-band .hero-bg{z-index:0}
+
+/* round 3 (10/12/26 QA): let the job photos show more color behind heroes and CTA bands */
+@media (max-width:1023px){
+  .phero .hero-bg::after{background:linear-gradient(180deg,rgba(6,11,20,.55) 0%,rgba(6,11,20,.62) 30%,rgba(6,11,20,.7) 55%,rgba(6,11,20,.9) 100%)}
+}
+.cta-band .hero-bg::after{background:linear-gradient(180deg,rgba(6,11,20,.66),rgba(6,11,20,.84))}
+.cta-band h2{text-shadow:0 2px 24px rgba(6,11,20,.6)}
