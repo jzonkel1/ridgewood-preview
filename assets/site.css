@@ -510,3 +510,46 @@ h2{text-wrap:balance}
 }
 .cta-band .hero-bg::after{background:linear-gradient(180deg,rgba(6,11,20,.66),rgba(6,11,20,.84))}
 .cta-band h2{text-shadow:0 2px 24px rgba(6,11,20,.6)}
+
+/* round 4 (10/12/26, Jeffrey's desktop review)
+   Headlines = Arimo Bold: Arial Bold letterforms, the same wide grotesque as the RIDGEWOOD logo and truck decals
+   (Big Shoulders was tall + condensed, the logo is not). The logo's soft dark shadow behind each letter is a
+   drop-shadow filter, not text-shadow, so it also works on the gradient (background-clip:text) words.
+   Arimo is ~1.6x wider than Big Shoulders, so every display size steps down. Fallback = Arial, nearly identical. */
+:root{--f-disp:'Arimo',Arial,'Helvetica Neue',Helvetica,sans-serif}
+h1,h2,h3,.disp{font-weight:700;letter-spacing:.005em;line-height:1.08}
+h1,h2,.disp{filter:drop-shadow(0 2px 3px rgba(0,0,0,.75)) drop-shadow(0 0 14px rgba(0,0,0,.35))}
+.hero h1,.phero h1{text-shadow:none}
+.hero h1{font-size:clamp(2.15rem,8.6vw,4.1rem);max-width:none}
+.phero h1{font-size:clamp(1.95rem,7.6vw,3.6rem);max-width:none}
+.sec-head h2{font-size:clamp(1.7rem,4.2vw,2.6rem);max-width:24ch}
+.prose h2{font-size:clamp(1.6rem,3.8vw,2.35rem)}
+.club-copy h2,.qf-copy h2{font-size:clamp(1.7rem,4vw,2.5rem)}
+.cta-band h2{font-size:clamp(1.8rem,4.4vw,2.9rem);max-width:22ch}
+.svc h3{font-size:1.18rem}
+.pts h3,.perk h3{font-size:1.06rem}
+.qw-step h3{font-size:1.32rem}
+.fee-item .disp{font-size:1.4rem}
+.season .disp{font-size:1rem}
+.mnav summary,.mnav>.wrap>a{font-size:1.2rem}
+@media (min-width:1024px){
+  .hero-inner{max-width:720px}
+  .phero .hero-inner{max-width:720px}
+}
+
+/* logo: bigger in the header (the wordmark was tiny at 44px) */
+:root{--hdr:80px}
+.logo img{height:54px}
+@media (min-width:1081px){:root{--hdr:96px}.logo img{height:76px}}
+@media (max-width:380px){.logo img{height:46px}}
+
+/* the spectrum line under the header sat ON TOP of the open dropdowns: it has opacity (= its own stacking layer)
+   and comes later in the DOM than the panels. Panels get their own higher layer. Same bug as LRT. */
+.dd-panel{z-index:5}
+.hdr::after{position:relative;z-index:0}
+/* the header's backdrop-filter made Chrome paint the dropdown panels see-through (the hero showed through the menu).
+   The blur now lives on a ::before layer behind the header content, so the panels are fully opaque. */
+.hdr{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.hdr::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(6,11,20,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+/* promise strip on tablets: three columns are too narrow for the uppercase captions, so stack until 960px */
+@media (min-width:760px) and (max-width:959px){.fee-grid{grid-template-columns:1fr}}
