@@ -1,0 +1,236 @@
+[
+{
+"stem": "w-rheem-condenser-on-wood-stand",
+"what": "New Rheem condenser sitting on a raised wooden stand beside a white wall, with disconnect box; Ridgewood logo overlay bottom right.",
+"service": "replacement",
+"people": "none"
+},
+{
+"stem": "w-condensers-coastal-marsh",
+"what": "Three outdoor condensers on a wooden deck overlooking a coastal marsh and water.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-condenser-open-clamp-meter-canal",
+"what": "Condenser with the service panel off and a clamp meter hooked on, tool bag beside it, canal-front homes behind; 'Licensed & Insured' badge overlay.",
+"service": "diagnostics",
+"people": "none"
+},
+{
+"stem": "w-condenser-gravel-bed",
+"what": "Outdoor condenser on a gravel bed beside a house wall, with a gauge/tool on the ground; Ridgewood logo overlay top left.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-condenser-coil-before-after",
+"what": "Side-by-side before and after of a condenser coil: matted with lint and debris, then cleaned.",
+"service": "tune-up",
+"people": "none"
+},
+{
+"stem": "w-old-condenser-coils-removed",
+"what": "Two old, torn-down condenser coil shells lying on dirt by a black iron fence after removal.",
+"service": "replacement",
+"people": "none"
+},
+{
+"stem": "w-old-indoor-coils-removed",
+"what": "Two old indoor coils (A-coils) removed and standing under a big oak tree; Ridgewood logo overlay top left.",
+"service": "replacement",
+"people": "none"
+},
+{
+"stem": "w-new-equipment-truck-bed",
+"what": "New boxed air handler on a pallet loaded in the back of a pickup at a supply house dock.",
+"service": "replacement",
+"people": "none"
+},
+{
+"stem": "w-r32-refrigerant-in-truck",
+"what": "20 lb box of Weitron R-32 refrigerant in a truck bed under the ladder rack.",
+"service": "replacement",
+"people": "none"
+},
+{
+"stem": "w-daikin-minisplit-control-board",
+"what": "Daikin mini-split outdoor unit opened up with its green inverter control board pulled out for service.",
+"service": "mini-split",
+"people": "none"
+},
+{
+"stem": "w-daikin-minisplit-head-unboxed",
+"what": "New Daikin ductless wall unit (indoor head) unboxed on the floor before install.",
+"service": "mini-split",
+"people": "none"
+},
+{
+"stem": "w-compressor-inside-condenser",
+"what": "Looking down into a condenser cabinet at the compressor and copper lines.",
+"service": "ac-repair",
+"people": "none"
+},
+{
+"stem": "w-contactor-burnt-wires",
+"what": "Close-up of a condenser contactor with scorched wire terminals inside the control panel.",
+"service": "ac-repair",
+"people": "none"
+},
+{
+"stem": "w-frozen-coil-and-pump",
+"what": "Two-photo collage: a condensate/drain component on the left and a solid block of ice on the indoor coil on the right.",
+"service": "ac-repair",
+"people": "none"
+},
+{
+"stem": "w-corroded-coil",
+"what": "Badly corroded, crusted-over coil with copper hairpins visible at the edge.",
+"service": "ac-repair",
+"people": "none"
+},
+{
+"stem": "w-control-boards-old-new",
+"what": "Gloved hand holding an old and a new control board up to an open unit with its wiring.",
+"service": "ac-repair",
+"people": "none"
+},
+{
+"stem": "w-attic-air-handler-open-meter",
+"what": "Air handler in an attic with the panel off, wiring exposed and a multimeter on the deck.",
+"service": "diagnostics",
+"people": "none"
+},
+{
+"stem": "w-thermal-camera-check",
+"what": "Hand holding a thermal imaging camera showing a heat map, against a blue wall with a gray box.",
+"service": "diagnostics",
+"people": "none"
+},
+{
+"stem": "w-airflow-hood-test",
+"what": "Blue airflow capture hood (balometer) set on a tile floor during an airflow test, with a bulldog lying next to it; Ridgewood logo overlay.",
+"service": "diagnostics",
+"people": "none"
+},
+{
+"stem": "w-furnace-interior-inducer",
+"what": "Gas furnace with the door off showing inducer motor, gas valve and wiring; thumbs-up emoji and Ridgewood logo overlays.",
+"service": "heating",
+"people": "none"
+},
+{
+"stem": "w-inducer-motors-old-new",
+"what": "Old dirty inducer motor next to its new replacement on a wood floor.",
+"service": "heating",
+"people": "none"
+},
+{
+"stem": "w-heat-strip-elements",
+"what": "Gloved hand holding an electric heat strip assembly in a utility closet (time/location stickers cropped off).",
+"service": "heating",
+"people": "tech"
+},
+{
+"stem": "w-attic-air-handler-platform",
+"what": "Air handler on a platform in an unfinished attic (a 'Wednesday' banner was cropped off the top).",
+"service": "heating",
+"people": "none"
+},
+{
+"stem": "w-dirty-duct-plenum",
+"what": "Inside a dusty supply plenum / duct, with dark dust buildup on the insulation.",
+"service": "ductwork",
+"people": "none"
+},
+{
+"stem": "w-clogged-return-filter",
+"what": "Return grille swung open showing a filter caked with dust.",
+"service": "iaq",
+"people": "none"
+},
+{
+"stem": "w-tech-ceiling-return-install",
+"what": "Technician from behind, in a Ridgewood jacket and blue cap, fitting a unit into a ceiling return opening.",
+"service": "iaq",
+"people": "tech"
+},
+{
+"stem": "w-raccoon-behind-return-grille",
+"what": "A raccoon peering out from behind a return-air grille and filter.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-honeywell-thermostat",
+"what": "Honeywell digital thermostat on a wall reading 74 inside, set to cool at 74.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-ridgewood-sticker-on-unit",
+"what": "Round Ridgewood service sticker with phone number and license on a gray equipment cabinet.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-tech-in-attic-selfie",
+"what": "Selfie of a tech in a Ridgewood face gaiter and cap in an attic beside flex duct (face covered).",
+"service": "general",
+"people": "tech"
+},
+{
+"stem": "w-owner-at-job-longsleeve",
+"what": "Owner standing outside a brick building in a black Ridgewood long-sleeve shirt, cap, badge and work gloves, smiling.",
+"service": "general",
+"people": "owner"
+},
+{
+"stem": "w-owner-truck-selfie",
+"what": "Owner selfie in the cab of his truck wearing a Ridgewood cap and polo.",
+"service": "general",
+"people": "owner"
+},
+{
+"stem": "w-truck-beach-houses",
+"what": "Ridgewood-branded blue Ram pickup with ladder rack parked in front of tall beach houses and palms; logo overlay.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-truck-door-roadside",
+"what": "Gray Ram truck with Ridgewood door decal (phone, license, website) parked beside a snow-cone bus.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-truck-door-decal",
+"what": "Close-up of the Ridgewood truck door decal with phone number, license and website, plus a sunglasses emoji.",
+"service": "general",
+"people": "none"
+},
+{
+"stem": "w-frozen-suction-line-closeup",
+"what": "Close-up of an iced-over copper suction line with meltwater dripping off it.",
+"service": "ac-repair",
+"people": "none"
+},
+{
+"stem": "w-furnace-gas-burners",
+"what": "Row of gas burners inside a furnace with the burner compartment open and the 'SERVICE' label below.",
+"service": "heating",
+"people": "none"
+},
+{
+"stem": "w-two-condensers-panels-off",
+"what": "Two-photo collage of outdoor units with their service panels removed, showing control boards and wiring.",
+"service": "ac-repair",
+"people": "none"
+},
+{
+"stem": "w-contactor-wiring-closeup",
+"what": "Close-up of a contactor pulled out on its wires in front of a condenser, colored control wires around it; Ridgewood logo overlay top right.",
+"service": "ac-repair",
+"people": "none"
+}
+]
