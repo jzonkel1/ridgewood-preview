@@ -554,3 +554,101 @@ h1,h2,.disp{filter:drop-shadow(0 2px 3px rgba(0,0,0,.75)) drop-shadow(0 0 14px r
 /* promise strip on tablets: three columns are too narrow for the uppercase captions, so stack until 960px */
 @media (min-width:760px) and (max-width:959px){.fee-grid{grid-template-columns:1fr}}
 .opts.c2{grid-template-columns:repeat(auto-fit,minmax(min(285px,100%),1fr))}
+
+/* ==========================================================================
+   round 5 (10/20/26): art-direction pass on the header, hero, proof row and promise strip.
+   - ONE accent: coastal blue for headline words, kickers and icons. Orange only on buttons.
+     The logo's spectrum stays as thin lines (header rule, footer rule, club frame, quote bar).
+   - Hero: the copy sits on a solid navy side of the photo, the truck stays clear on the right.
+     Ken Burns zoom kept on purpose (Jeffrey's hero rule).
+   - Proof row (rating / license / hours) + promise strip (Thomas's three promises), no repeats.
+   REVERT: delete everything from this comment down, then restore build.py + data.py from
+   _backup/design-2026-10-20-before/ (or run tools/revert_design_2026_10_20.py).
+   ========================================================================== */
+:root{--accent:#4aaef2;--cta:#c93f1b;--cta-hover:#ae2e17;--rule:rgba(148,180,220,.2)}
+
+/* accent words + kickers: one colour, no rainbow text */
+.grad,.club-price .num{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--accent)}
+.eyebrow{color:var(--accent)}
+.eyebrow::before,.eyebrow::after{background:currentColor;opacity:.75}
+
+/* buttons: solid fills, quiet shadows */
+.btn-fire,.hdr-call,.hdr-book,.callbar .c-call{background:var(--cta)}
+.btn-fire{box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.btn-fire:hover,.hdr-call:hover,.hdr-book:hover{background:var(--cta-hover);box-shadow:0 8px 22px rgba(0,0,0,.36)}
+.btn-ice{border-color:rgba(74,174,242,.55);background:rgba(6,11,20,.85)}
+.btn-ice:hover{background:rgba(14,36,62,.92)}
+@media (min-width:900px) and (hover:hover){
+  .cta-online.btn-ice{background:var(--cta);border-color:transparent;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+  .cta-online.btn-ice:hover{background:var(--cta-hover)}
+  .cta-call.btn-fire{background:rgba(6,11,20,.85);border-color:rgba(74,174,242,.55);box-shadow:none}
+  .cta-call.btn-fire:hover{background:rgba(14,36,62,.92)}
+}
+.callbar .c-book svg{color:var(--accent)}
+
+/* header: nav and the call/book cluster split by a hairline, active page underlined */
+.nav>a,.dd>button{color:#d3deeb;position:relative}
+.nav>a[aria-current]::after{content:"";position:absolute;left:.75rem;right:.75rem;bottom:.18rem;height:2px;border-radius:2px;background:var(--accent)}
+.hdr-phone svg{color:var(--accent)}
+@media (min-width:1081px){.hdr-cta{margin-left:1.2rem;padding-left:1.4rem;border-left:1px solid var(--rule);gap:1.1rem}}
+
+/* hero: one rhythm for kicker > h1 > lede > buttons > proof */
+.hero-inner,.phero .hero-inner{gap:0}
+.hero .eyebrow,.phero .eyebrow{margin-bottom:1rem}
+@media (max-width:1023px){.hero .eyebrow,.phero .eyebrow{color:#d2e9fb}}  /* pale blue: clears 4.5:1 over the sky on phones (measured 320-430) */
+.phero .crumbs{margin-bottom:1rem}
+.hero h1{line-height:1.03;letter-spacing:-.005em}
+.hero-sub{margin-top:1.1rem;font-size:1.08rem;line-height:1.6;color:#d6e0ec}
+.hero .cta-row,.phero .cta-row{margin-top:1.8rem}
+/* phones + tablets: the photo shows at the top and bottom, solid enough behind the copy */
+@media (max-width:1023px){
+  .hero .hero-bg::after{background:linear-gradient(180deg,rgba(6,11,20,.52) 0%,rgba(6,11,20,.68) 10%,rgba(6,11,20,.71) 28%,rgba(6,11,20,.77) 55%,rgba(6,11,20,.86) 80%,rgba(6,11,20,.95) 100%)}
+  .hero .hero-bg img{object-position:72% 40%}
+}
+@media (min-width:1024px){
+  .hero{min-height:min(calc(86vh - var(--hdr)),720px)}
+  .hero-inner{max-width:640px;padding:4.5rem 0 4.75rem}
+  .hero h1{font-size:clamp(2.6rem,4.4vw,4rem)}
+  .hero-sub{max-width:31rem;font-size:1.12rem}
+  /* copy side near-solid navy, falls off fast past the text so the truck's cab and front stay clear */
+  .hero .hero-bg::after,.phero .hero-bg::after{background:
+    linear-gradient(90deg,rgba(6,11,20,.95) 0%,rgba(6,11,20,.92) 38%,rgba(6,11,20,.8) 47%,rgba(6,11,20,.42) 58%,rgba(6,11,20,.1) 68%,rgba(6,11,20,0) 76%),
+    linear-gradient(0deg,rgba(6,11,20,.5) 0%,rgba(6,11,20,0) 26%)}
+  .phero .hero-inner{max-width:640px}
+}
+
+/* proof row: three facts with hairline dividers under the buttons */
+.trust{display:grid;grid-template-columns:repeat(3,auto);gap:0;margin-top:1.9rem;padding-top:1.4rem;border-top:1px solid var(--rule);text-align:left;justify-content:center}
+.trust li{display:flex;align-items:center;gap:.7rem;padding:0 1.35rem;font-weight:400}
+.trust li:first-child{padding-left:0}
+.trust li:last-child{padding-right:0}
+.trust li+li{border-left:1px solid var(--rule)}
+.trust svg{width:22px;height:22px;color:var(--accent)}
+.trust b{display:block;font:700 .98rem/1.25 var(--f-body);color:#fff}
+.trust small{display:block;font-size:.84rem;line-height:1.35;color:#b6c5d7}
+@media (min-width:1024px){.trust,.phero .trust{grid-template-columns:repeat(3,auto);justify-content:start}}
+/* short phones (SE-size): keep the Call button above the fold */
+@media (max-width:640px) and (max-height:700px){.hero .cta-row,.phero .cta-row{margin-top:1.3rem}.hero-sub{margin-top:.9rem}}
+@media (max-width:640px){
+  .trust{grid-template-columns:repeat(3,1fr);width:100%;max-width:360px;margin-inline:auto;text-align:center}
+  .trust li,.trust li:first-child,.trust li:last-child{flex-direction:column;gap:.4rem;padding:0 .45rem}
+  .trust b{font-size:.86rem}
+  .trust small{font-size:.76rem}
+}
+
+/* promise strip: icon + short heading + one plain sentence, hairline dividers on desktop */
+.fee-strip{padding:2rem 0}
+.fee-grid{grid-template-columns:1fr;gap:1.35rem;text-align:left;max-width:440px}
+.fee-item{display:flex;align-items:flex-start;gap:1rem}
+.fee-ic{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--accent);background:rgba(74,174,242,.1);border:1px solid rgba(74,174,242,.28)}
+.fee-ic svg{width:21px;height:21px}
+.fee-h{font:700 1.06rem/1.25 var(--f-disp);text-transform:uppercase;letter-spacing:.01em;color:#fff;text-wrap:balance}
+.fee-item p{margin-top:.3rem;font-size:.95rem;line-height:1.5;color:var(--soft);text-transform:none;letter-spacing:0;font-weight:400;text-wrap:pretty}
+@media (min-width:960px){
+  .fee-strip{padding:2.2rem 0}
+  .fee-grid{grid-template-columns:repeat(3,1fr);gap:0;max-width:none}
+  .fee-item{padding:0 1.8rem}
+  .fee-item:first-child{padding-left:0}
+  .fee-item:last-child{padding-right:0}
+  .fee-item+.fee-item{border-left:1px solid var(--line)}
+}
