@@ -78,7 +78,7 @@ function bindPhone(el){el.addEventListener('input',function(){
 /* ---- Netlify POST; confirmation ONLY on 2xx ---- */
 function send(form,btn,onOk){
   var label=btn.innerHTML,err=form.querySelector('.send-err');btn.disabled=true;btn.textContent='Sending…';if(err)err.hidden=true;
-  fetch('/ridgewood-preview/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()})
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(form)).toString()})
   .then(function(r){if(!r.ok)throw new Error(r.status);onOk()})
   .catch(function(){btn.disabled=false;btn.innerHTML=label;if(err)err.hidden=false});
 }
@@ -214,7 +214,7 @@ document.querySelectorAll('.bk').forEach(function(w){
   function slots(msg){
     var my=++req,now=Math.floor(Date.now()/1000);
     load.hidden=false;daysEl.innerHTML='';timesEl.innerHTML='';note.hidden=true;none.hidden=true;
-    fetch(API+'/ridgewood-preview/company/slots/'+CO+'?start='+now+'&end='+(now+DAYS*86400)+'&service_id='+st.svc,{headers:{Accept:'application/json'}})
+    fetch(API+'/company/slots/'+CO+'?start='+now+'&end='+(now+DAYS*86400)+'&service_id='+st.svc,{headers:{Accept:'application/json'}})
     .then(function(r){return r.json()})
     .then(function(j){if(my!==req)return;if(!j||j.error||!j.response)throw new Error('slots');
       var list=(j.response.slots||[]).filter(function(s){return s.start_timestamp>now}).sort(function(a,b){return a.start_timestamp-b.start_timestamp});
@@ -285,7 +285,7 @@ document.querySelectorAll('.bk').forEach(function(w){
     var addr=[val('address'),val('address_2'),val('city'),'TX',val('zip_code')].filter(Boolean).join(', '),desc=val('description',1500);
     var body=new URLSearchParams({'form-name':'ridgewood-quote',service:'Online booking: '+st.label,timing:'Picked '+when(st.slot)+' (online booking did not go through, please confirm)',
       town:val('city'),where:'Home',name:val('full_name'),phone:E.phone.value,email:val('email'),details:'Address: '+addr+(desc?'\n'+desc:''),page:location.pathname,company:''});
-    fetch('/ridgewood-preview/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()})
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()})
     .then(function(r){if(!r.ok)throw new Error(r.status);finish('request')}).catch(onFail);
   }
   f.addEventListener('submit',function(e){e.preventDefault();if(!st.slot){show(1);return}
@@ -306,13 +306,13 @@ document.querySelectorAll('.bk').forEach(function(w){
       timezone:TZ,address:val('address'),city:val('city'),state:'TX',zip_code:val('zip_code'),address_2:val('address_2'),booking_portal_consent:false,
       start_date_time:st.slot.start_timestamp,end_date_time:st.slot.end_timestamp,service_id:st.svc,attach_invoice:true};
     if(st.slot.user_combinations)body.user_combinations=st.slot.user_combinations;
-    fetch(API+'/ridgewood-preview/request/'+CO,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    fetch(API+'/request/'+CO,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
     .then(function(r){return r.json().catch(function(){return {error:true}}).then(function(j){j._status=r.status;return j})})
     .then(function(j){
       if(!j.error){finish('booked');return}
       if(j._status>=500||!j.errors){fallback(function(){fail()});return}
       var m=(j.errors||[]).join(' ');
-      if(/ridgewood-preview/slot|time|avail|book/i.test(m)){btn.disabled=false;btn.innerHTML=label;show(1);focusTop(steps[1]);slots('That time was just taken. Please pick another one.');return}
+      if(/slot|time|avail|book/i.test(m)){btn.disabled=false;btn.innerHTML=label;show(1);focusTop(steps[1]);slots('That time was just taken. Please pick another one.');return}
       fail(esc(m)+' Fix that and try again, or call '+TEL+'.');
     })
     .catch(function(){fallback(function(){fail()})});
