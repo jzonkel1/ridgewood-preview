@@ -719,3 +719,200 @@ h1,h2,.disp{filter:drop-shadow(0 2px 3px rgba(0,0,0,.75)) drop-shadow(0 0 14px r
   .qw-nav:has(.btn) .qw-back{justify-content:center}
   .bk .qw-top span+span{display:none}
 }
+
+/* ==========================================================================
+   punch list (10/22/26): words and lines. build.py glues the last two words of short text and wraps phone
+   numbers in .nw; CSS balances headings and keeps long paragraphs from ending on one word.
+   ========================================================================== */
+.nw{white-space:nowrap}
+h1,h2,h3,h4,.disp,.fee-h,.eyebrow{text-wrap:balance}
+p,li,small,figcaption,blockquote,cite{text-wrap:pretty}
+.sec-head h2{max-width:28ch}
+/* headings round 4 missed when it stepped the display sizes down for Arimo */
+.about-copy h2{font-size:clamp(1.7rem,4vw,2.5rem)}
+.area-side h3{font-size:clamp(1.3rem,3vw,1.6rem)}
+.qw-done h3{font-size:clamp(1.5rem,5vw,1.8rem)}
+.cta-band h2{font-size:clamp(1.7rem,4.4vw,2.9rem)}
+/* 320-400px phones: "System Replacement" fits on one line inside the card */
+@media (max-width:400px){.svc-body{padding:1.2rem 1.15rem 1.3rem}.svc h3{font-size:1.08rem}}
+
+/* ==========================================================================
+   punch list (10/22/26) part 2: section photo layers, Jeffrey's club + booking mockup, promise-strip icons,
+   bigger desktop headlines, real reviewer avatars. REVERT: _backup/punch-2026-10-22-before/ (css, build.py, data.py, js).
+   ========================================================================== */
+/* logo-swirl colours for icons */
+.k1{color:#4aaef2}.k2{color:#3ec3d8}.k3{color:#f5b32f}.k4{color:#ff8a3d}.k5{color:#f0553a}
+.pg{display:block;fill:currentColor;flex:none}
+.t-spec{background:linear-gradient(90deg,#2e8fe0 0%,#3ec3d8 26%,#f5b32f 56%,#ff7a2f 80%,#e8442e 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.t-warm{background:linear-gradient(90deg,#ffa23a 0%,#ff7a2f 45%,#e8442e 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* photo layers behind sections (real photos instead of a run of flat navy). Phone files are pre-cropped, so centre them. */
+.has-bg{position:relative;isolation:isolate;overflow:hidden}
+.sec-bg{position:absolute;inset:0;z-index:-2}
+.sec-bg img{width:100%;height:100%;object-fit:cover;object-position:var(--bp,50% 50%)}
+.has-bg::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+@media (max-width:760px){.sec-bg img{object-position:50% 50%}}
+.has-bg .sec-head p,.has-bg .qf-copy p,.has-bg .area-side>p,.has-bg .rev-hero p{color:var(--soft)}
+/* reviews: the iced suction line in navy duotone */
+#reviews.has-bg::after{background:linear-gradient(180deg,rgba(6,11,20,.86) 0%,rgba(6,11,20,.58) 42%,rgba(6,11,20,.62) 70%,rgba(6,11,20,.9) 100%)}
+/* service area: the bay and the skyline; heavier on the text side, the map card stays the feature */
+#area.has-bg::after{background:linear-gradient(180deg,rgba(12,21,36,.86) 0%,rgba(12,21,36,.5) 30%,rgba(12,21,36,0) 55%),
+  linear-gradient(90deg,rgba(12,21,36,.62) 0%,rgba(12,21,36,.72) 44%,rgba(12,21,36,.93) 56%,rgba(12,21,36,.95) 100%)}
+.has-bg .area-map{box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+/* quote: duotone photo behind the heading side only, solid behind the form */
+@media (min-width:980px){
+  .form-sec .sec-bg{right:auto;width:56%}
+  .form-sec.has-bg::after{background:linear-gradient(90deg,rgba(12,21,36,.7) 0%,rgba(12,21,36,.8) 34%,rgba(12,21,36,.97) 50%,var(--panel) 56%)}
+}
+/* town pages: the town behind "about this town" */
+.town-local.has-bg::after{background:linear-gradient(90deg,rgba(6,11,20,.94) 0%,rgba(6,11,20,.88) 46%,rgba(6,11,20,.6) 70%,rgba(6,11,20,.5) 100%),
+  linear-gradient(0deg,rgba(6,11,20,.5),rgba(6,11,20,0) 35%,rgba(6,11,20,.4))}
+/* footer: the Harbor Bridge at night along the bottom, very dark */
+.ftr.has-bg{background:#04080f}
+.ftr.has-bg::after{background:linear-gradient(180deg,#04080f 0%,rgba(4,8,15,.94) 35%,rgba(4,8,15,.8) 100%)}
+.ftr.has-bg::before{z-index:1}
+/* phones: the photo sits at the top of tall sections and fades into the section colour */
+@media (max-width:979px){
+  .form-sec.has-bg .sec-bg{bottom:auto;height:560px}
+  .form-sec.has-bg::after{bottom:auto;height:560px;background:linear-gradient(180deg,rgba(12,21,36,.74) 0%,rgba(12,21,36,.82) 50%,var(--panel) 100%)}
+  .town-local.has-bg .sec-bg{bottom:auto;height:600px}
+  .town-local.has-bg::after{bottom:auto;height:600px;background:linear-gradient(180deg,rgba(6,11,20,.74) 0%,rgba(6,11,20,.84) 50%,var(--ink) 100%)}
+  #area.has-bg .sec-bg{bottom:auto;height:640px}
+  #area.has-bg::after{bottom:auto;height:640px;background:linear-gradient(180deg,rgba(12,21,36,.82) 0%,rgba(12,21,36,.6) 40%,var(--panel) 100%)}
+}
+@media (max-width:899px){
+  .ftr.has-bg .sec-bg{top:auto;height:560px}
+  .ftr.has-bg::after{background:linear-gradient(180deg,#04080f 0%,#04080f calc(100% - 560px),rgba(4,8,15,.86) calc(100% - 300px),rgba(4,8,15,.78) 100%)}
+}
+
+/* the logo swirl as decoration (club + booking mockup) */
+.swirl{position:absolute;z-index:-1;pointer-events:none;height:auto;max-width:none}
+.sw-club{left:-250px;top:-110px;width:700px;opacity:.15}
+.sw-bl{left:-290px;bottom:-260px;width:640px;opacity:.13}
+.sw-br{right:-300px;top:-160px;width:600px;opacity:.1;transform:scaleX(-1)}
+@media (max-width:760px){.sw-club{left:auto;right:-170px;top:-60px;width:340px;transform:scaleX(-1);opacity:.14}.sw-bl{width:360px;left:-200px;bottom:-140px}.sw-br{width:320px;right:-190px;top:-80px}}
+
+/* ---------- club section (Jeffrey's mockup 10/22/26) ---------- */
+.club{background:var(--ink);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:clamp(4rem,7vw,6.4rem) 0}
+.club .club-photo{left:auto;width:min(60%,900px)}
+.club.has-bg::after{background:
+  linear-gradient(90deg,var(--ink) 0%,var(--ink) 40%,rgba(6,11,20,.84) 50%,rgba(6,11,20,.5) 70%,rgba(6,11,20,.4) 100%),
+  linear-gradient(0deg,rgba(6,11,20,.75),rgba(6,11,20,0) 30%),linear-gradient(180deg,rgba(6,11,20,.6),rgba(6,11,20,0) 25%)}
+.club-grid{grid-template-columns:1fr;gap:2.6rem}
+@media (min-width:1024px){.club-grid{grid-template-columns:1.1fr .9fr;gap:3.6rem}}
+.club-copy,.club-copy>p{text-align:left;margin-left:0}
+.club-copy .eyebrow::after{display:none}
+.club-copy h2{font-size:clamp(2.15rem,6.6vw,4.1rem);line-height:1.02;margin-top:1rem}
+.club-copy>p{color:var(--soft);font-size:1.08rem;max-width:34rem;margin-top:1.2rem}
+.perks6{list-style:none;display:grid;grid-template-columns:1fr;gap:.85rem;margin-top:1.9rem;max-width:34rem}
+@media (min-width:560px){.perks6{grid-template-columns:1fr 1fr;column-gap:2rem;row-gap:1.1rem}}
+.perks6 li{display:flex;align-items:center;gap:.9rem;font-weight:600;font-size:1.02rem;color:var(--text)}
+.ring{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:2px solid currentColor;background:rgba(6,11,20,.5)}
+.ring .pg{width:21px;height:21px}
+@media (max-width:559px){.ring{width:36px;height:36px}.ring .pg{width:18px;height:18px}.perks6 li{font-size:.98rem}}
+.club-card{background:rgba(6,11,20,.8);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:0;border-radius:20px;padding:2rem 1.8rem 1.5rem;max-width:460px;width:100%;margin:0 auto;box-shadow:0 30px 80px -30px rgba(0,0,0,.85)}
+.club-card::before{border-radius:20px;padding:2px;opacity:1;background:linear-gradient(135deg,#2e8fe0 0%,#3ec3d8 28%,#f5b32f 58%,#ff7a2f 80%,#e8442e 100%)}
+.cc-k{display:block;font:700 .8rem/1.3 var(--f-body);letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.club-card .club-price{justify-content:flex-start;align-items:center;gap:.7rem;margin-top:.5rem}
+.club-card .club-price .num{font:700 5rem/1 var(--f-disp);color:#fff;filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))}
+.club-card .club-price .per{font:600 1.08rem/1.2 var(--f-body);color:var(--soft);text-align:left}
+.club-card .club-sub{text-align:left;color:var(--soft);font-size:1rem;line-height:1.5;margin-top:.5rem}
+.club-card .seasons{gap:.8rem;margin:1.4rem 0}
+.club-card .season{background:rgba(255,255,255,.03);border:1px solid var(--line-2);border-radius:14px;padding:1.1rem .7rem 1rem}
+.club-card .season .pg{width:42px;height:42px;margin:0 auto .55rem}
+.club-card .season.spring .pg{color:#4aaef2}.club-card .season.fall .pg{color:#f5a623}
+.club-card .season .disp{font-size:1.08rem}
+.club-card .season p{font-size:.9rem;color:var(--soft);line-height:1.35;margin-top:.15rem}
+.btn-club{width:100%;background:linear-gradient(90deg,#e9651f 0%,#cf3a1b 100%);color:#fff;font-size:1.2rem;min-height:60px;box-shadow:0 12px 30px -10px rgba(232,90,30,.7)}
+.btn-club:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.btn-club svg{width:21px;height:21px}
+.cc-foot{text-align:center;color:var(--muted);font-size:.85rem;margin-top:.95rem}
+@media (max-width:1023px){.club .club-photo{display:none}.club.has-bg::after{content:none}}
+@media (max-width:420px){.club-card{padding:1.6rem 1.15rem 1.3rem}.club-card .club-price .num{font-size:4.2rem}}
+
+/* ---------- booking section (Jeffrey's mockup 10/22/26) ---------- */
+.book-sec{position:relative;isolation:isolate;overflow:hidden}
+.book-head{display:grid;gap:1.6rem;margin-bottom:2.2rem;align-items:end}
+@media (min-width:1024px){.book-head{grid-template-columns:1fr auto;gap:3rem}}
+.book-head .eyebrow::after{display:none}
+.bh-copy h2{font-size:clamp(2.05rem,5.8vw,3.7rem);margin-top:1rem;line-height:1.02}
+.bh-copy p{color:var(--soft);font-size:1.06rem;max-width:38rem;margin-top:1rem}
+.bh-feats{list-style:none;display:flex;padding-bottom:.4rem}
+.bh-feats li{display:flex;align-items:center;gap:.75rem;padding:0 1.35rem;font-size:.92rem;line-height:1.35;color:var(--soft)}
+.bh-feats li+li{border-left:1px solid var(--line-2)}
+.bh-feats li:first-child{padding-left:0}
+.bh-feats li:last-child{padding-right:0}
+.bh-feats .pg{width:34px;height:34px}
+.bh-feats a{color:#fff;font-weight:700;font-size:1rem}
+@media (max-width:1023px){.bh-feats{display:none}}
+.book-sec .book-wrap{max-width:none}
+.bk{background:rgba(9,17,30,.88);border:1px solid var(--line-2);border-radius:20px;padding:1.8rem 2rem 1.3rem}
+.bk .qw-count{text-transform:uppercase;letter-spacing:.14em;color:var(--soft)}
+.bk .qw-step h3{font-size:clamp(1.3rem,2.2vw,1.6rem);text-transform:none;letter-spacing:0}
+.bk-main{display:grid;grid-template-columns:1fr;gap:.75rem}
+@media (min-width:900px){.bk-main{grid-template-columns:repeat(3,1fr);gap:1rem}}
+.opt.bk-card{align-items:center;gap:1.05rem;padding:1.05rem 1.1rem;background:rgba(6,11,20,.7);border-radius:14px}
+@media (min-width:900px){.opt.bk-card{min-height:136px;padding:1.3rem 1.2rem}}
+.bk-card .bk-ic .pg{width:46px;height:46px;opacity:1}
+.bk-t{display:flex;flex-direction:column;gap:.35rem;flex:1;min-width:0}
+.bk-t b{font-size:1.06rem;color:#fff}
+.bk-t small{color:var(--muted);font-weight:500;font-size:.88rem;line-height:1.45}
+.bk-card.on .bk-t small{color:var(--soft)}
+@media (max-width:560px){.bk-t small{display:none}.bk-card .bk-ic .pg{width:32px;height:32px}.opt.bk-card{min-height:62px}}
+.bk-club .qw-nav{justify-content:flex-start}
+.bk .qw-foot a{color:var(--accent)}
+@media (max-width:560px){.bk{padding:1.4rem 1.05rem 1rem}}
+
+/* ---------- promise strip: bigger freestanding pictograms, no tinted circles (Jeffrey 10/22) ---------- */
+.fee-ic{width:auto;height:auto;border:0;background:none;border-radius:0;display:block}
+.fee-ic .pg{width:46px;height:46px}
+.fee-item{align-items:center;gap:1.1rem}
+
+/* ---------- reviews: the reviewer's real Google picture (or Google's letter avatar) + the real Google G ---------- */
+.rev-av{width:40px;height:40px;font-size:1rem;object-fit:cover}
+span.rev-av{background:#455a64}
+.rev-by .src{display:flex;align-items:center;gap:.4rem}
+.rev-by .src .g{width:14px;height:14px}
+
+/* ---------- headlines a size up on desktop (Jeffrey 10/22) ---------- */
+@media (min-width:1024px){
+  .hero-inner{max-width:700px}
+  .hero h1{font-size:clamp(3rem,4.9vw,4.6rem)}
+  .phero h1{font-size:clamp(2.8rem,4.3vw,4.1rem)}
+  .phero .hero-inner{max-width:700px}
+  .sec-head h2{font-size:clamp(2.4rem,3.4vw,3.2rem)}
+  .prose h2{font-size:clamp(2.1rem,3vw,2.8rem)}
+  .qf-copy h2,.about-copy h2{font-size:clamp(2.2rem,3.2vw,3rem)}
+  .cta-band h2{font-size:clamp(2.4rem,3.6vw,3.4rem)}
+}
+
+/* club, wide screens (mockup): copy | card, and the real Ridgewood sticker on a unit shows to the right of the card */
+@media (min-width:1024px) and (max-width:1199px){.club .club-photo{display:none}.club.has-bg::after{content:none}}
+@media (min-width:1200px){
+  .club .club-grid{width:min(100% - 8vw,1320px);grid-template-columns:clamp(540px,41vw,690px) 410px;justify-content:start;gap:48px}
+  .club-copy h2{font-size:clamp(3rem,3.9vw,4.1rem)}
+  .club .club-photo{left:calc((100% - min(92%,1320px)) / 2 + clamp(540px,41vw,690px) + 388px);width:auto}
+  .club.has-bg::after{background:
+    linear-gradient(90deg,var(--ink) 0,var(--ink) calc((100% - min(92%,1320px)) / 2 + clamp(540px,41vw,690px) + 388px),rgba(6,11,20,.5) calc((100% - min(92%,1320px)) / 2 + clamp(540px,41vw,690px) + 500px),rgba(6,11,20,.3) calc((100% - min(92%,1320px)) / 2 + clamp(540px,41vw,690px) + 640px),rgba(6,11,20,.38) 100%),
+    linear-gradient(0deg,rgba(6,11,20,.8),rgba(6,11,20,0) 28%),linear-gradient(180deg,rgba(6,11,20,.7),rgba(6,11,20,0) 26%)}
+  .club-card{margin:0}
+}
+
+/* "Systems we install": the three logos across the section (Jeffrey 10/22) */
+.brands{display:block;margin-top:3rem;padding-top:2.2rem;border-top:1px solid var(--line)}
+.brands .lbl{display:block;text-align:center;margin-bottom:1.6rem}
+.brand-row{display:grid;grid-template-columns:repeat(3,1fr);align-items:center;justify-items:center;gap:1rem}
+.brand-row img{width:auto;opacity:.92}
+.brand-row .b-rheem{height:74px}.brand-row .b-daikin{height:40px}.brand-row .b-goodman{height:44px}
+@media (max-width:640px){.brand-row .b-rheem{height:52px}.brand-row .b-daikin{height:24px}.brand-row .b-goodman{height:27px}.brands{margin-top:2.4rem}}
+
+/* the logo swirl on the plain sections too, alternating sides */
+.sw-sec{position:relative;isolation:isolate;overflow:hidden}
+.sw-a{left:-300px;top:-140px;width:620px;opacity:.1}
+.sw-b{right:-300px;top:-120px;width:600px;opacity:.09;transform:scaleX(-1)}
+.sw-c{left:-310px;bottom:-240px;width:620px;opacity:.09}
+@media (max-width:760px){.sw-a,.sw-c{width:340px;left:-210px}.sw-b{width:320px;right:-200px}}
+
+/* footer listings: Google, Facebook, Instagram, TikTok, YouTube */
+.ftr-social .pg{width:18px;height:18px}
+.ftr-social{flex-wrap:wrap}

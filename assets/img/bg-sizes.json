@@ -1,0 +1,242 @@
+{
+ "reviews": {
+  "w": 1125,
+  "h": 1107,
+  "sw": 1100,
+  "spec": [
+   "condensers-field",
+   "mute",
+   "50% 55%",
+   "50% 50%",
+   null
+  ]
+ },
+ "club": {
+  "w": 1270,
+  "h": 2048,
+  "sw": 682,
+  "spec": [
+   "w-ridgewood-sticker-on-unit",
+   "mute",
+   "50% 62%",
+   "50% 62%",
+   0.62
+  ]
+ },
+ "area": {
+  "w": 2048,
+  "h": 1024,
+  "sw": 1100,
+  "spec": [
+   "stock/corpus-christi-alt-unsplash--BRXJmpwK54.jpg",
+   "plain",
+   "50% 42%",
+   "60% 40%",
+   2.0
+  ]
+ },
+ "footer": {
+  "w": 2048,
+  "h": 853,
+  "sw": 1100,
+  "spec": [
+   "stock/footer-cc-dusk-alt-wikimedia-LCCN2014633485.jpg",
+   "plain",
+   "50% 45%",
+   "28% 50%",
+   2.4
+  ]
+ },
+ "quote": {
+  "w": 2048,
+  "h": 1365,
+  "sw": 1100,
+  "spec": [
+   "attic-tech",
+   "duo",
+   "50% 45%",
+   "40% 40%",
+   1.5
+  ]
+ },
+ "quote-ac-replacement": {
+  "w": 1536,
+  "h": 1024,
+  "sw": 1100,
+  "spec": [
+   "w-new-equipment-truck-bed",
+   "duo",
+   "50% 55%",
+   "50% 50%",
+   1.5
+  ]
+ },
+ "quote-ac-repair": {
+  "w": 2048,
+  "h": 1365,
+  "sw": 1100,
+  "spec": [
+   "w-contactor-wiring-closeup",
+   "duo",
+   "50% 45%",
+   "50% 45%",
+   1.5
+  ]
+ },
+ "quote-heating-repair": {
+  "w": 1125,
+  "h": 750,
+  "sw": 1100,
+  "spec": [
+   "w-heat-strip-elements",
+   "duo",
+   "50% 45%",
+   "50% 45%",
+   1.5
+  ]
+ },
+ "quote-ac-tune-up": {
+  "w": 1125,
+  "h": 750,
+  "sw": 1100,
+  "spec": [
+   "condensers-field",
+   "duo",
+   "50% 60%",
+   "55% 55%",
+   1.5
+  ]
+ },
+ "quote-ductwork": {
+  "w": 1536,
+  "h": 1024,
+  "sw": 1100,
+  "spec": [
+   "w-dirty-duct-plenum",
+   "duo",
+   "50% 50%",
+   "50% 50%",
+   1.5
+  ]
+ },
+ "quote-indoor-air-quality": {
+  "w": 1536,
+  "h": 1024,
+  "sw": 1100,
+  "spec": [
+   "w-dirty-duct-plenum",
+   "duo",
+   "50% 30%",
+   "50% 30%",
+   1.5
+  ]
+ },
+ "quote-hvac-diagnostics": {
+  "w": 1620,
+  "h": 1080,
+  "sw": 1100,
+  "spec": [
+   "w-frozen-suction-line-closeup",
+   "duo",
+   "60% 50%",
+   "55% 50%",
+   1.5
+  ]
+ },
+ "town-ingleside": {
+  "w": 1125,
+  "h": 1107,
+  "sw": 1100,
+  "spec": [
+   "condensers-field",
+   "mute",
+   "50% 35%",
+   "50% 40%",
+   null
+  ]
+ },
+ "town-portland": {
+  "w": 2048,
+  "h": 1365,
+  "sw": 1100,
+  "spec": [
+   "stock/cc-skyline-unsplash-fnwPP8t1nE4.jpg",
+   "plain",
+   "50% 62%",
+   "38% 55%",
+   null
+  ]
+ },
+ "town-aransas-pass": {
+  "w": 2048,
+  "h": 1367,
+  "sw": 1100,
+  "spec": [
+   "stock/aransas-pass-wikimedia-LCCN2014633929.jpg",
+   "plain",
+   "55% 72%",
+   "45% 70%",
+   null
+  ]
+ },
+ "town-rockport": {
+  "w": 2048,
+  "h": 1536,
+  "sw": 1100,
+  "spec": [
+   "stock/rockport-alt-unsplash-3dw0tElOVgY.jpg",
+   "plain",
+   "50% 55%",
+   "40% 55%",
+   null
+  ]
+ },
+ "town-port-aransas": {
+  "w": 2048,
+  "h": 1366,
+  "sw": 1100,
+  "spec": [
+   "stock/port-aransas-alt-wikimedia-Unsplash_MJjjM2ATEXA.jpg",
+   "plain",
+   "50% 55%",
+   "35% 55%",
+   null
+  ]
+ },
+ "town-corpus-christi": {
+  "w": 2048,
+  "h": 1342,
+  "sw": 1100,
+  "spec": [
+   "stock/corpus-christi-unsplash-CxCzobIffgE.jpg",
+   "plain",
+   "55% 40%",
+   "62% 40%",
+   null
+  ]
+ },
+ "town-calallen": {
+  "w": 2048,
+  "h": 1280,
+  "sw": 1100,
+  "spec": [
+   "w-old-indoor-coils-removed",
+   "soft",
+   "50% 30%",
+   "50% 35%",
+   1.6
+  ]
+ },
+ "town-gregory": {
+  "w": 1536,
+  "h": 960,
+  "sw": 1100,
+  "spec": [
+   "w-new-equipment-truck-bed",
+   "mute",
+   "50% 40%",
+   "50% 40%",
+   1.6
+  ]
+ }
+}

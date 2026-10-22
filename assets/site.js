@@ -149,7 +149,7 @@ document.querySelectorAll('.bk').forEach(function(w){
   var steps=[].slice.call(w.querySelectorAll('.qw-step')),bar=w.querySelector('.qw-bar i'),cnt=w.querySelector('.qw-count');
   var load=w.querySelector('.bk-load'),daysEl=w.querySelector('.bk-days'),timesEl=w.querySelector('.bk-times'),note=w.querySelector('.bk-note'),none=w.querySelector('.bk-none');
   var f=w.querySelector('form'),err=f.querySelector('.send-err'),btn=f.querySelector('button[type=submit]'),done=w.querySelector('.qw-done');
-  var tel=w.querySelector('.qw-foot a'),TEL='<a href="'+tel.getAttribute('href')+'">'+esc(tel.textContent)+'</a>',ARROW=w.querySelector('.bk-svc svg').outerHTML;
+  var tel=w.querySelector('.qw-foot a'),TEL='<a href="'+tel.getAttribute('href')+'">'+esc(tel.textContent)+'</a>',ARROW=w.querySelector('.bk-svc>svg').outerHTML;
   var st={svc:0,label:'',slots:[],byDay:{},day:'',slot:null},cur=0,req=0;
   function fmt(o){o.timeZone=TZ;return new Intl.DateTimeFormat('en-US',o)}
   var fKey=fmt({year:'numeric',month:'2-digit',day:'2-digit'}),fWd=fmt({weekday:'short'}),fNum=fmt({day:'numeric'}),fMon=fmt({month:'short'}),
@@ -163,7 +163,7 @@ document.querySelectorAll('.bk').forEach(function(w){
   function part(s){var h=+fHr.format(d(s.start_timestamp));return h<12?'Morning':h<17?'Afternoon':'Evening'}
   function when(s){return fLong.format(d(s.start_timestamp))+', '+win(s)}
   function show(n){cur=n;steps.forEach(function(s,j){s.hidden=j!==n});bar.style.width=((n+1)/steps.length*100)+'%';cnt.textContent='Step '+(n+1)+' of '+steps.length;
-    w.querySelectorAll('.qw-back').forEach(function(b){b.style.visibility=n?'visible':'hidden'})}
+    w.querySelectorAll('.qw-back:not(.bk-club-back)').forEach(function(b){b.style.visibility=n?'visible':'hidden'})}
   function focusTop(el){var h=el.querySelector('h3');if(h)h.focus({preventScroll:true});var r=w.getBoundingClientRect();if(r.top<0||r.top>innerHeight*.6)w.scrollIntoView({behavior:'smooth',block:'start'})}
 
   function slots(msg){
@@ -194,6 +194,10 @@ document.querySelectorAll('.bk').forEach(function(w){
   function summary(){f.querySelector('.bk-sum-t').innerHTML='<b>'+esc(st.label)+'</b><span>'+esc(fShort.format(d(st.slot.start_timestamp))+', '+win(st.slot))+'</span>'}
 
   w.addEventListener('click',function(e){
+    /* step 1: the "Club member checkup" card opens the first / second visit choice */
+    var cm=w.querySelector('.bk-main'),cc=w.querySelector('.bk-club');
+    if(e.target.closest('.bk-club-open')){cm.hidden=true;cc.hidden=false;focusTop(steps[0]);return}
+    if(e.target.closest('.bk-club-back')){cm.hidden=false;cc.hidden=true;focusTop(steps[0]);return}
     var o=e.target.closest('.bk-svc');
     if(o){w.querySelectorAll('.bk-svc').forEach(function(x){x.classList.toggle('on',x===o)});
       if(st.svc!==+o.dataset.id){st.svc=+o.dataset.id;st.slot=null;st.day=''}st.label=o.dataset.label;
