@@ -4,7 +4,7 @@
   "h": 2015,
   "sw": 1100,
   "spec": [
-   "upscaled/condensers-field-2560.png",
+   "upscaled/condensers-field-2560-flip.png",
    "mute",
    "50% 55%",
    "50% 50%",
@@ -96,14 +96,14 @@
   ]
  },
  "quote-ac-tune-up": {
-  "w": 1125,
-  "h": 750,
+  "w": 2048,
+  "h": 1366,
   "sw": 1100,
   "spec": [
-   "condensers-field",
+   "upscaled/condensers-field-2560-flip.png",
    "duo",
    "50% 60%",
-   "55% 55%",
+   "45% 55%",
    1.5
   ]
  },
@@ -144,11 +144,11 @@
   ]
  },
  "town-ingleside": {
-  "w": 1125,
-  "h": 1107,
+  "w": 2048,
+  "h": 2015,
   "sw": 1100,
   "spec": [
-   "condensers-field",
+   "upscaled/condensers-field-2560-flip.png",
    "mute",
    "50% 35%",
    "50% 40%",
