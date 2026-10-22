@@ -137,3 +137,125 @@ document.querySelectorAll('form.club-form').forEach(function(f){
 
 /* maps: the Google embed pulls ~300KB of script, so it only loads when scrolled near (10/12 speed pass) */
 (function(){var f=document.querySelectorAll("iframe[data-src]");if(!f.length)return;function go(i){if(!i.getAttribute("src"))i.src=i.dataset.src}if(!("IntersectionObserver" in window)){f.forEach(go);return}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(e.target);io.unobserve(e.target)}})},{rootMargin:"400px 0px"});f.forEach(function(i){io.observe(i)})})();
+
+/* ---- online booking (10/21/26): our screens on Tommy's FieldPulse schedule ----
+   Same two public calls his FieldPulse booking portal makes, straight from the browser (no key): GET open slots for a
+   service, POST the booking. Days, windows, the 3-hour cutoff and no-double-booking all come from his FieldPulse
+   settings. NO prices anywhere. Off the live domain it is a DRY RUN: real open times, never books.
+   If FieldPulse can't be reached, the details go through the quote form instead so nothing is lost. */
+document.querySelectorAll('.bk').forEach(function(w){
+  var API=w.dataset.api,CO=w.dataset.co,DAYS=+w.dataset.days||14,TZ='America/Chicago';
+  var LIVE=location.hostname.replace(/^www\./,'')===w.dataset.live;
+  var steps=[].slice.call(w.querySelectorAll('.qw-step')),bar=w.querySelector('.qw-bar i'),cnt=w.querySelector('.qw-count');
+  var load=w.querySelector('.bk-load'),daysEl=w.querySelector('.bk-days'),timesEl=w.querySelector('.bk-times'),note=w.querySelector('.bk-note'),none=w.querySelector('.bk-none');
+  var f=w.querySelector('form'),err=f.querySelector('.send-err'),btn=f.querySelector('button[type=submit]'),done=w.querySelector('.qw-done');
+  var tel=w.querySelector('.qw-foot a'),TEL='<a href="'+tel.getAttribute('href')+'">'+esc(tel.textContent)+'</a>',ARROW=w.querySelector('.bk-svc svg').outerHTML;
+  var st={svc:0,label:'',slots:[],byDay:{},day:'',slot:null},cur=0,req=0;
+  function fmt(o){o.timeZone=TZ;return new Intl.DateTimeFormat('en-US',o)}
+  var fKey=fmt({year:'numeric',month:'2-digit',day:'2-digit'}),fWd=fmt({weekday:'short'}),fNum=fmt({day:'numeric'}),fMon=fmt({month:'short'}),
+      fLong=fmt({weekday:'long',month:'long',day:'numeric'}),fShort=fmt({weekday:'short',month:'short',day:'numeric'}),fHr=fmt({hour:'numeric',hourCycle:'h23'}),
+      fT=fmt({hour:'numeric',minute:'2-digit'});
+  function d(ts){return new Date(ts*1000)}
+  function hm(ts){var h='',m='',p='';fT.formatToParts(d(ts)).forEach(function(q){if(q.type==='hour')h=q.value;if(q.type==='minute')m=q.value;if(q.type==='dayPeriod')p=q.value.toUpperCase()});return {t:h+(m!=='00'?':'+m:''),p:p}}
+  function win(s){var a=hm(s.start_timestamp),b=hm(s.end_timestamp);
+    if(s.end_timestamp-s.start_timestamp<=3600)return a.t+' '+a.p;
+    return a.p===b.p?a.t+' to '+b.t+' '+b.p:a.t+' '+a.p+' to '+b.t+' '+b.p}
+  function part(s){var h=+fHr.format(d(s.start_timestamp));return h<12?'Morning':h<17?'Afternoon':'Evening'}
+  function when(s){return fLong.format(d(s.start_timestamp))+', '+win(s)}
+  function show(n){cur=n;steps.forEach(function(s,j){s.hidden=j!==n});bar.style.width=((n+1)/steps.length*100)+'%';cnt.textContent='Step '+(n+1)+' of '+steps.length;
+    w.querySelectorAll('.qw-back').forEach(function(b){b.style.visibility=n?'visible':'hidden'})}
+  function focusTop(el){var h=el.querySelector('h3');if(h)h.focus({preventScroll:true});var r=w.getBoundingClientRect();if(r.top<0||r.top>innerHeight*.6)w.scrollIntoView({behavior:'smooth',block:'start'})}
+
+  function slots(msg){
+    var my=++req,now=Math.floor(Date.now()/1000);
+    load.hidden=false;daysEl.innerHTML='';timesEl.innerHTML='';note.hidden=true;none.hidden=true;
+    fetch(API+'/ridgewood-preview/company/slots/'+CO+'?start='+now+'&end='+(now+DAYS*86400)+'&service_id='+st.svc,{headers:{Accept:'application/json'}})
+    .then(function(r){return r.json()})
+    .then(function(j){if(my!==req)return;if(!j||j.error||!j.response)throw new Error('slots');
+      var list=(j.response.slots||[]).filter(function(s){return s.start_timestamp>now}).sort(function(a,b){return a.start_timestamp-b.start_timestamp});
+      var order=[],wkend=false;st.slots=list;st.byDay={};
+      list.forEach(function(s,i){var k=fKey.format(d(s.start_timestamp)),wd=fWd.format(d(s.start_timestamp));
+        if(!st.byDay[k]){st.byDay[k]=[];order.push(k)}st.byDay[k].push(i);if(wd==='Sat'||wd==='Sun')wkend=true});
+      load.hidden=true;note.hidden=wkend;
+      if(!order.length){none.querySelector('p').textContent='No open times online in the next two weeks. Call or text and a real person will fit you in.';none.querySelector('.cta-row').hidden=false;none.hidden=false;return}
+      daysEl.innerHTML=order.map(function(k){var s=list[st.byDay[k][0]],n=st.byDay[k].length,t=d(s.start_timestamp);
+        return '<button type="button" class="bk-day" data-k="'+k+'" aria-pressed="false"><span class="dw">'+fWd.format(t)+'</span><span class="dn">'+fNum.format(t)+'</span><span class="dm">'+fMon.format(t)+'</span><span class="dc">'+n+(n>1?' times':' time')+'</span></button>'}).join('');
+      if(msg){none.querySelector('p').textContent=msg;none.querySelector('.cta-row').hidden=true;none.hidden=false}
+      pickDay(order.indexOf(st.day)>-1?st.day:order[0]);
+    })
+    .catch(function(){if(my!==req)return;load.hidden=true;
+      none.querySelector('p').textContent='We couldn\'t load open times right now. Call or text and a real person will get you scheduled, or send a quick request.';
+      none.querySelector('.cta-row').hidden=false;none.hidden=false});
+  }
+  function pickDay(k){st.day=k;
+    daysEl.querySelectorAll('.bk-day').forEach(function(b){var on=b.dataset.k===k;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+    timesEl.innerHTML=(st.byDay[k]||[]).map(function(i){var s=st.slots[i];
+      return '<button type="button" class="opt bk-time'+(st.slot===s?' on':'')+'" data-i="'+i+'"><span><b>'+part(s)+'</b>'+win(s)+'</span>'+ARROW+'</button>'}).join('')}
+  function summary(){f.querySelector('.bk-sum-t').innerHTML='<b>'+esc(st.label)+'</b><span>'+esc(fShort.format(d(st.slot.start_timestamp))+', '+win(st.slot))+'</span>'}
+
+  w.addEventListener('click',function(e){
+    var o=e.target.closest('.bk-svc');
+    if(o){w.querySelectorAll('.bk-svc').forEach(function(x){x.classList.toggle('on',x===o)});
+      if(st.svc!==+o.dataset.id){st.svc=+o.dataset.id;st.slot=null;st.day=''}st.label=o.dataset.label;
+      setTimeout(function(){show(1);focusTop(steps[1]);slots()},200);return}
+    var dy=e.target.closest('.bk-day');if(dy){pickDay(dy.dataset.k);return}
+    var tm=e.target.closest('.bk-time');
+    if(tm){st.slot=st.slots[+tm.dataset.i];timesEl.querySelectorAll('.bk-time').forEach(function(x){x.classList.toggle('on',x===tm)});summary();
+      setTimeout(function(){show(2);focusTop(steps[2]);var n=f.elements.full_name;if(!n.value&&matchMedia('(hover:hover)').matches)n.focus({preventScroll:true})},200);return}
+    if(e.target.closest('.bk-change')){show(1);focusTop(steps[1]);return}
+    if(e.target.closest('.qw-back')){e.preventDefault();if(cur>0){show(cur-1);focusTop(steps[cur])}}
+  });
+
+  var E=f.elements;bindPhone(E.phone);
+  E.zip_code.addEventListener('input',function(){E.zip_code.value=E.zip_code.value.replace(/\D/g,'').slice(0,5)});
+  function bad(el,isBad){var fl=el.closest('.fld');fl.classList.toggle('bad',isBad);var m=fl.querySelector('.err');if(m)m.hidden=!isBad;return isBad}
+  function val(n,max){return String(E[n].value||'').replace(/[ \t]+/g,' ').trim().slice(0,max||120)}
+
+  function finish(kind){
+    w.querySelector('.bk-steps').hidden=true;w.querySelector('.qw-top').hidden=true;w.querySelector('.qw-bar').hidden=true;done.hidden=false;
+    var h=done.querySelector('h3'),a=done.querySelector('.bk-done-when'),b=done.querySelector('.bk-done-more');
+    if(kind==='dry'){h.textContent='Preview only.';a.textContent='Nothing was booked. On the live site this books '+st.label.toLowerCase()+' for '+when(st.slot)+'.';b.textContent=''}
+    else if(kind==='request'){h.textContent='Got it. Thank you.';a.textContent='Our online calendar didn\'t answer, so your details came to us as a request for '+when(st.slot)+'.';
+      b.innerHTML='A real person will call you to confirm the time. Need us sooner? Call '+TEL+'.'}
+    else{a.textContent=st.label+': '+when(st.slot)+'.';
+      b.innerHTML='A confirmation email is on its way to <b>'+esc(val('email'))+'</b>. Need to change anything? Call or text '+TEL+'.'}
+    focusTop(done);
+  }
+  function fallback(onFail){
+    var addr=[val('address'),val('address_2'),val('city'),'TX',val('zip_code')].filter(Boolean).join(', '),desc=val('description',1500);
+    var body=new URLSearchParams({'form-name':'ridgewood-quote',service:'Online booking: '+st.label,timing:'Picked '+when(st.slot)+' (online booking did not go through, please confirm)',
+      town:val('city'),where:'Home',name:val('full_name'),phone:E.phone.value,email:val('email'),details:'Address: '+addr+(desc?'\n'+desc:''),page:location.pathname,company:''});
+    fetch('/ridgewood-preview/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body.toString()})
+    .then(function(r){if(!r.ok)throw new Error(r.status);finish('request')}).catch(onFail);
+  }
+  f.addEventListener('submit',function(e){e.preventDefault();if(!st.slot){show(1);return}
+    var p=usPhone(E.phone.value),ok=true;
+    if(bad(E.full_name,!val('full_name')))ok=false;
+    if(bad(E.phone,!p))ok=false;else E.phone.value=p;
+    if(bad(E.email,!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(val('email'))))ok=false;
+    if(bad(E.address,val('address').length<4))ok=false;
+    if(bad(E.city,!val('city')))ok=false;
+    if(bad(E.zip_code,!/^\d{5}$/.test(val('zip_code'))))ok=false;
+    if(!ok){var first=f.querySelector('.fld.bad input');if(first)first.focus();return}
+    if(E.company.value)return;  /* honeypot: bots fill it, people never see it */
+    var label=btn.innerHTML;err.hidden=true;btn.disabled=true;btn.textContent='Booking…';
+    function fail(msg){btn.disabled=false;btn.innerHTML=label;err.innerHTML=msg||('That didn\'t go through. Your answers are still here: try again, or call '+TEL+'.');err.hidden=false}
+    if(!LIVE){setTimeout(function(){finish('dry')},500);return}
+    var desc=val('description',1500);
+    var body={full_name:val('full_name'),email:val('email'),phone:p,description:(desc?desc+'\n\n':'')+'Booked on '+location.hostname.replace(/^www\./,''),
+      timezone:TZ,address:val('address'),city:val('city'),state:'TX',zip_code:val('zip_code'),address_2:val('address_2'),booking_portal_consent:false,
+      start_date_time:st.slot.start_timestamp,end_date_time:st.slot.end_timestamp,service_id:st.svc,attach_invoice:true};
+    if(st.slot.user_combinations)body.user_combinations=st.slot.user_combinations;
+    fetch(API+'/ridgewood-preview/request/'+CO,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    .then(function(r){return r.json().catch(function(){return {error:true}}).then(function(j){j._status=r.status;return j})})
+    .then(function(j){
+      if(!j.error){finish('booked');return}
+      if(j._status>=500||!j.errors){fallback(function(){fail()});return}
+      var m=(j.errors||[]).join(' ');
+      if(/ridgewood-preview/slot|time|avail|book/i.test(m)){btn.disabled=false;btn.innerHTML=label;show(1);focusTop(steps[1]);slots('That time was just taken. Please pick another one.');return}
+      fail(esc(m)+' Fix that and try again, or call '+TEL+'.');
+    })
+    .catch(function(){fallback(function(){fail()})});
+  });
+  show(0);
+});

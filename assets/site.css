@@ -652,3 +652,70 @@ h1,h2,.disp{filter:drop-shadow(0 2px 3px rgba(0,0,0,.75)) drop-shadow(0 0 14px r
   .fee-item:last-child{padding-right:0}
   .fee-item+.fee-item{border-left:1px solid var(--line)}
 }
+
+/* ==========================================================================
+   online booking (10/21/26): our screens on Tommy's FieldPulse schedule (replaces the portal iframe)
+   ========================================================================== */
+.book-wrap{max-width:880px;margin-inline:auto}
+.bk{padding:1.7rem 1.5rem 1.2rem;overflow:hidden}
+.bk::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--spectrum)}
+.bk h3[tabindex]:focus{outline:none}
+.bk-svc{align-items:center;min-height:88px}
+.bk-svc>span,.bk-time>span{display:flex;flex-direction:column;gap:.2rem}
+.bk-svc b{font-size:1.02rem}
+.bk-svc small{font-weight:500;color:var(--muted);font-size:.86rem;line-height:1.45}
+.bk-svc.on small{color:var(--soft)}
+.bk-load{display:flex;align-items:center;gap:.55rem;color:var(--muted);font-size:.95rem;padding:.2rem 0 1rem}
+.bk-load svg{width:18px;height:18px;color:var(--accent);animation:bkpulse 1.1s ease-in-out infinite alternate}
+@keyframes bkpulse{from{opacity:.35}to{opacity:1}}
+.bk-days{display:flex;gap:.55rem;overflow-x:auto;scroll-snap-type:x proximity;padding:2px 2px 8px;margin:0 -2px .9rem;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.bk-days::-webkit-scrollbar{display:none}
+.bk-day{flex:0 0 auto;width:76px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:.65rem .3rem .6rem;border-radius:12px;border:1.5px solid var(--line-2);background:var(--ink);color:var(--text);cursor:pointer;scroll-snap-align:start;transition:border-color .15s ease,background .15s ease}
+.bk-day:hover{border-color:var(--accent)}
+.bk-day.on{border-color:var(--gold);background:rgba(245,179,47,.08)}
+.bk-day .dw{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.bk-day .dn{font:800 1.95rem/1 var(--f-disp)}
+.bk-day .dm{font-size:.78rem;font-weight:600;color:var(--soft)}
+.bk-day .dc{font-size:.7rem;color:var(--muted);margin-top:.25rem;white-space:nowrap}
+.bk-day.on .dw,.bk-day.on .dc{color:var(--gold)}
+.bk-times{grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+.bk-time{min-height:64px}
+.bk-time b{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.bk-time>span{font-size:1.1rem;font-weight:700}
+.bk-time.on b{color:var(--gold)}
+.bk-note{margin-top:1rem;font-size:.9rem;color:var(--muted)}
+.bk-note a,.bk-none a:not(.btn),.bk-done-more a{color:var(--text);font-weight:700;border-bottom:1px solid var(--line-2)}
+.bk-none{padding:.2rem 0 .4rem}
+.bk-none p{color:var(--soft);margin-bottom:1rem}
+.bk-none .cta-row{justify-content:flex-start}
+.bk-sum{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.85rem 1rem;border-radius:12px;background:rgba(74,174,242,.07);border:1px solid rgba(74,174,242,.28);margin-bottom:1.3rem}
+.bk-sum-t{display:flex;flex-direction:column;line-height:1.4;min-width:0}
+.bk-sum-t b{font-size:1rem}
+.bk-sum-t span{color:var(--soft);font-size:.93rem}
+.bk-change{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;padding:.5rem 0;flex:none}
+.bk-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:0 .9rem;grid-auto-flow:row dense}
+.bk-grid .fld{grid-column:span 3}
+.bk-grid .bk-wide{grid-column:1/-1}
+.bk-grid .bk-third{grid-column:span 2}
+@media (max-width:560px){
+  .bk{padding:1.4rem 1.05rem 1rem}
+  .bk-grid{grid-template-columns:1fr 1fr}
+  .bk-grid .fld,.bk-grid .bk-town{grid-column:1/-1}
+  .bk-grid .bk-third:not(.bk-town){grid-column:span 1}
+  .bk-svc{min-height:0}
+}
+.bk .qw-done .bk-done-when{color:var(--text);font-weight:600;font-size:1.08rem;margin-bottom:.6rem;text-wrap:balance}
+.bk .qw-done .bk-done-more{text-wrap:pretty}
+@media (min-width:761px){.bk-days{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));overflow:visible;margin:0 0 1rem;padding:0}.bk-day{width:auto}}
+@media (max-width:560px){
+  .bk-grid{grid-template-columns:1fr 7.2rem}
+  .bk-grid .fld,.bk-grid .bk-third:not(.bk-town){grid-column:1/-1}
+  .bk-grid .bk-town{grid-column:1}
+  .bk-grid .bk-town+.bk-third{grid-column:2}
+}
+@media (max-width:400px){
+  .qw-nav:has(.btn){flex-direction:column-reverse;align-items:stretch;gap:.4rem}
+  .qw-nav:has(.btn) .btn{max-width:none;margin-left:0}
+  .qw-nav:has(.btn) .qw-back{justify-content:center}
+  .bk .qw-top span+span{display:none}
+}
