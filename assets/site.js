@@ -211,7 +211,18 @@ document.querySelectorAll('.bk').forEach(function(w){
   });
 
   var E=f.elements;bindPhone(E.phone);
-  E.zip_code.addEventListener('input',function(){E.zip_code.value=E.zip_code.value.replace(/\D/g,'').slice(0,5)});
+  /* step 3 (10/22): the ZIP fills in the town; an unknown ZIP (or "Not right?") shows the town box */
+  var ZIPS={};try{ZIPS=JSON.parse(w.dataset.zips||'{}')}catch(x){}
+  var townF=E.city.closest('.fld'),townLine=f.querySelector('.bk-townline'),manual=false;
+  function zipTown(){var z=E.zip_code.value,c=ZIPS[z];
+    if(manual){townLine.hidden=true;townF.hidden=false;return}
+    if(z.length<5){townLine.hidden=true;return}
+    if(c){E.city.value=c;townLine.querySelector('span').textContent=c+', TX';townLine.hidden=false;townF.hidden=true;bad(E.city,false)}
+    else{townLine.hidden=true;townF.hidden=false}}
+  E.zip_code.addEventListener('input',function(){E.zip_code.value=E.zip_code.value.replace(/\D/g,'').slice(0,5);zipTown()});
+  E.zip_code.addEventListener('change',zipTown);
+  f.querySelector('.bk-town-edit').addEventListener('click',function(){manual=true;zipTown();E.city.focus()});
+  f.querySelector('.bk-more').addEventListener('click',function(){this.hidden=true;var x=f.querySelector('.bk-extra');x.hidden=false;x.querySelector('input').focus()});
   function bad(el,isBad){var fl=el.closest('.fld');fl.classList.toggle('bad',isBad);var m=fl.querySelector('.err');if(m)m.hidden=!isBad;return isBad}
   function val(n,max){return String(E[n].value||'').replace(/[ \t]+/g,' ').trim().slice(0,max||120)}
 
@@ -238,7 +249,7 @@ document.querySelectorAll('.bk').forEach(function(w){
     if(bad(E.phone,!p))ok=false;else E.phone.value=p;
     if(bad(E.email,!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(val('email'))))ok=false;
     if(bad(E.address,val('address').length<4))ok=false;
-    if(bad(E.city,!val('city')))ok=false;
+    if(bad(E.city,!val('city'))){townF.hidden=false;ok=false}
     if(bad(E.zip_code,!/^\d{5}$/.test(val('zip_code'))))ok=false;
     if(!ok){var first=f.querySelector('.fld.bad input');if(first)first.focus();return}
     if(E.company.value)return;  /* honeypot: bots fill it, people never see it */

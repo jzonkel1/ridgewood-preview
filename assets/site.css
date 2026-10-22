@@ -916,3 +916,63 @@ span.rev-av{background:#455a64}
 /* footer listings: Google, Facebook, Instagram, TikTok, YouTube */
 .ftr-social .pg{width:18px;height:18px}
 .ftr-social{flex-wrap:wrap}
+
+/* trust bar: solid icons; phones use the short wording so the three columns line up (Jeffrey 10/22) */
+.trust .pg{width:22px;height:22px;color:var(--accent)}
+.m-only{display:none}
+@media (max-width:640px){.d-only{display:none}.m-only{display:inline}.trust svg,.trust .pg{width:24px;height:24px}}
+
+/* hours: three groups, one per line, never broken inside */
+.hrs{display:inline-grid;gap:.1rem;text-align:left}
+.ftr-hrs .hrs{display:grid;justify-items:center;margin-top:.3rem;text-align:center}
+@media (min-width:900px){.ftr-hrs .hrs{justify-items:start;text-align:left}}
+.contact-list .hrs{font-weight:600}
+.contact-list li:has(.hrs) span{align-items:flex-start}
+
+/* "Real jobs, up close": bento on tablets and desktop (phones keep the swipe row) */
+@media (min-width:761px){
+  .gal.bento{grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,15.5vw,220px);grid-auto-flow:dense;gap:.9rem}
+  .gal.bento button{aspect-ratio:auto;border-radius:14px}
+  .gal.bento .t-big{grid-column:span 2;grid-row:span 2}
+  .gal.bento .t-wide{grid-column:span 2}
+}
+
+/* booking step 3 (10/22): name + phone, email, address + ZIP; the town comes from the ZIP; extras behind one link */
+.bk-grid{grid-template-columns:repeat(6,1fr)}
+.bk-grid .fld.bk-half{grid-column:span 3}
+.bk-grid .fld.bk-addr{grid-column:span 4}
+.bk-grid .fld.bk-zip{grid-column:span 2}
+.bk-grid .bk-wide{grid-column:1/-1}
+.bk-townline{display:flex;align-items:center;gap:.7rem;margin:-.35rem 0 .8rem;font-size:.92rem;color:var(--soft)}
+.bk-townline span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#3ec3d8;margin-right:.5rem;vertical-align:middle}
+.bk-town-edit,.bk-more{background:none;border:0;color:var(--accent);font-weight:700;cursor:pointer;padding:.45rem 0;font-size:.92rem;text-align:left;justify-self:start}
+.bk-extra{display:grid;gap:0}
+@media (max-width:560px){
+  .bk-grid{grid-template-columns:1fr 6.6rem}
+  .bk-grid .fld.bk-half,.bk-grid .fld.bk-wide{grid-column:1/-1}
+  .bk-grid .fld.bk-addr{grid-column:1}
+  .bk-grid .fld.bk-zip{grid-column:2}
+}
+.gal button img{object-position:var(--fp,50% 50%)}
+
+/* punch list 10/22, sweep round 3 */
+/* hours inside the quote contact list: the list's span{display:flex} made the three groups one wide row (card overflowed) */
+.contact-list .hrs{display:grid;gap:.1rem;padding:0}
+.contact-list .hrs span{display:block;padding:0}
+/* swirls live in their own clipping layer; sections with swipe rows stay unclipped */
+.sw-clip{position:absolute;inset:0;overflow:hidden;z-index:-1;pointer-events:none}
+.sw-sec{overflow:visible}
+/* club: the swirl shows above the dark overlay (behind the copy), like the mockup */
+.club .sw-clip{z-index:0}
+.club .club-grid{position:relative;z-index:1}
+.club .sw-club{opacity:.2}
+/* trust bar: desktop and phone wording are block lines, so the second line reads as deliberate */
+.trust .d-only,.trust .m-only{display:block}
+@media (min-width:641px){.trust .m-only{display:none}}
+@media (max-width:640px){.trust .d-only{display:none}}
+/* club headline: "Zero surprises." on one line from 320px up */
+.club-copy h2{font-size:clamp(1.65rem,7.4vw,4.1rem)}
+@media (min-width:1024px) and (max-width:1199px){.club-copy h2{font-size:clamp(2.6rem,4.6vw,3.4rem)}}
+@media (min-width:1200px){.club-copy h2{font-size:clamp(3rem,3.9vw,4.1rem)}}
+@media (max-width:340px){.svc h3{font-size:1rem}}
+.bh-feats .bh-tel,.bh-feats .bh-tel .nw{display:block}
