@@ -135,6 +135,42 @@ document.querySelectorAll('form.club-form').forEach(function(f){
   });
 })();
 
+/* ---- reviews row (10/22): drifts on its own at the old marquee speed; a finger, a mouse drag or a trackpad moves it, both
+   ways. Same handover as the drift rows: the offset moves from --dx into scrollLeft (a full copy behind, so swiping back
+   never hits a wall), and 3.5s after the last touch it folds back into --dx. The track holds the cards twice. ---- */
+document.querySelectorAll('.marquee').forEach(function(m){
+  var tr=m.querySelector('.mq-track'),n=tr&&tr.children.length/2;
+  if(!n||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var cs=getComputedStyle(tr).transform,dx=cs&&cs!=='none'?-new DOMMatrixReadOnly(cs).m41:0;
+  m.classList.add('mq-js');
+  var P=1,v=0,last=0,held=false,hov=false,resume=0,run=false,drag=null,settle=0;
+  function per(){P=Math.max(1,tr.children[n].offsetLeft-tr.children[0].offsetLeft);v=P/(parseFloat(m.style.getPropertyValue('--mq'))||90)}
+  per();addEventListener('resize',per);
+  function set(){m.style.setProperty('--dx',dx.toFixed(2))}
+  dx%=P;set();
+  function hand(){if(dx){m.scrollLeft=dx<P/2?dx+P:dx;dx=0;set()}}
+  function rel(ms){held=false;resume=Math.max(resume,performance.now()+ms)}
+  m.addEventListener('touchstart',function(){hand();held=true},{passive:true});
+  m.addEventListener('touchend',function(){rel(3500)},{passive:true});
+  m.addEventListener('pointerenter',function(e){if(e.pointerType==='mouse'){hand();hov=true}});
+  m.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse'){hov=false;rel(800)}});
+  m.addEventListener('pointerdown',function(e){hand();held=true;if(e.pointerType!=='mouse'||e.button)return;
+    drag={x:e.clientX,s:m.scrollLeft};m.setPointerCapture(e.pointerId);m.classList.add('dragging')});
+  m.addEventListener('pointermove',function(e){if(drag)m.scrollLeft=drag.s-(e.clientX-drag.x)});
+  // touch lets go on touchend only: Chrome fires pointercancel the moment a pan starts, with the finger still down
+  function up(e){if(e.pointerType!=='mouse')return;if(drag){drag=null;m.classList.remove('dragging')}rel(3500)}
+  m.addEventListener('pointerup',up);m.addEventListener('pointercancel',up);
+  m.addEventListener('scroll',function(){if(dx)return;resume=Math.max(resume,performance.now()+3500);
+    // once it settles, park the position in the middle copy so the next swipe has room either way
+    clearTimeout(settle);settle=setTimeout(function(){if(held||drag)return;var x=m.scrollLeft;if(x>0&&x<P/2)m.scrollLeft=x+P;else if(x>P*1.5)m.scrollLeft=x-P},150)},{passive:true});
+  function tick(t){if(!run){last=0;return}
+    if(!held&&!hov&&t>resume){
+      if(m.scrollLeft>0){dx=m.scrollLeft%P;m.scrollLeft=0}
+      if(last)dx+=(t-last)/1000*v;if(dx>=P)dx-=P;set()}
+    last=t;requestAnimationFrame(tick)}
+  new IntersectionObserver(function(es){es.forEach(function(e){var was=run;run=e.isIntersecting;if(run&&!was)requestAnimationFrame(tick)})},{threshold:.2}).observe(m);
+});
+
 /* maps: the Google embed pulls ~300KB of script, so it only loads when scrolled near (10/12 speed pass) */
 (function(){var f=document.querySelectorAll("iframe[data-src]");if(!f.length)return;function go(i){if(!i.getAttribute("src"))i.src=i.dataset.src}if(!("IntersectionObserver" in window)){f.forEach(go);return}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(e.target);io.unobserve(e.target)}})},{rootMargin:"400px 0px"});f.forEach(function(i){io.observe(i)})})();
 

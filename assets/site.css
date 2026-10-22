@@ -518,7 +518,8 @@ h2{text-wrap:balance}
    Arimo is ~1.6x wider than Big Shoulders, so every display size steps down. Fallback = Arial, nearly identical. */
 :root{--f-disp:'Arimo',Arial,'Helvetica Neue',Helvetica,sans-serif}
 h1,h2,h3,.disp{font-weight:700;letter-spacing:.005em;line-height:1.08}
-h1,h2,.disp{filter:drop-shadow(0 2px 3px rgba(0,0,0,.75)) drop-shadow(0 0 14px rgba(0,0,0,.35))}
+/* ONE drop-shadow: two chained ones drew a hard dark box behind the heading wherever it crossed a swirl (10/22) */
+h1,h2,.disp{filter:drop-shadow(0 2px 5px rgba(0,0,0,.72))}
 .hero h1,.phero h1{text-shadow:none}
 .hero h1{font-size:clamp(2.15rem,8.6vw,4.1rem);max-width:none}
 .phero h1{font-size:clamp(1.95rem,7.6vw,3.6rem);max-width:none}
@@ -976,3 +977,31 @@ span.rev-av{background:#455a64}
 @media (min-width:1200px){.club-copy h2{font-size:clamp(3rem,3.9vw,4.1rem)}}
 @media (max-width:340px){.svc h3{font-size:1rem}}
 .bh-feats .bh-tel,.bh-feats .bh-tel .nw{display:block}
+
+/* Jeffrey 10/22, phone pass */
+/* promise strip: centred on phones and tablets, icon over the words */
+@media (max-width:959px){
+  .fee-grid{max-width:400px;margin-inline:auto;text-align:center;gap:1.8rem}
+  .fee-item{flex-direction:column;align-items:center;gap:.6rem}
+  .fee-item p{text-wrap:balance}
+}
+/* club season tiles: shrink with the card (at 320 the glued "system checkup" pushed the Fall tile out of the card) */
+.club-card .seasons{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* reviews: a scroll row the JS drifts (the CSS marquee couldn't be swiped); the keyframes stay as the no-JS fallback */
+.marquee.mq-js{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab}
+.marquee.mq-js::-webkit-scrollbar{display:none}
+.marquee.mq-js .mq-track{animation:none;transform:translate3d(calc(var(--dx,0)*-1px),0,0);will-change:transform}
+.marquee.dragging{cursor:grabbing;user-select:none}
+/* swirls on phones: bigger share on screen, brighter, each parked in its section's emptiest spot. Right edge = the
+   image as-is, left edge = mirrored, so the solid back of the C shows instead of the thin blade tips */
+@media (max-width:760px){
+  .swirl{width:300px;opacity:.26}
+  #services .swirl{left:-135px;right:auto;top:-55px;bottom:auto;transform:scaleX(-1)}
+  #work .swirl{left:auto;right:-140px;top:-70px;bottom:auto;transform:none}
+  .club .sw-club{left:auto;right:-150px;top:clamp(270px,calc(84vw - 40px),330px);transform:none;opacity:.32}
+  #about .swirl{left:-140px;right:auto;top:calc(100vw - 50px);transform:scaleX(-1)}
+  #book .sw-br{left:auto;right:-140px;top:-45px;transform:none;opacity:.3}
+  #book .sw-bl{display:none}
+  #faq .swirl{left:-140px;right:auto;top:-90px;bottom:auto;transform:scaleX(-1)}
+  #perks .swirl{left:-140px;right:auto;top:-60px;transform:scaleX(-1)}
+}
