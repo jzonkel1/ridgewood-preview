@@ -985,8 +985,17 @@ span.rev-av{background:#455a64}
   .fee-item{flex-direction:column;align-items:center;gap:.6rem}
   .fee-item p{text-wrap:balance}
 }
+/* map boxes: an "Open in Google Maps" card sits behind the embed, which fades in once it has loaded */
+.area-map{position:relative;background:var(--panel)}
+.map-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;padding:1.5rem;text-align:center;color:var(--text)}
+.map-ph .pg{width:40px;height:40px;color:var(--accent);margin-bottom:.2rem}
+.map-ph b{font:700 1.05rem/1.3 var(--f-disp)}
+.map-ph span{font-size:.92rem;font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.area-map iframe{position:relative;z-index:1;display:block;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.area-map iframe.ok{opacity:1;pointer-events:auto}
 /* club season tiles: shrink with the card (at 320 the glued "system checkup" pushed the Fall tile out of the card) */
 .club-card .seasons{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:350px){.club-card .season{padding-inline:.45rem}.club-card .season p{font-size:.8rem}}
 /* reviews: a scroll row the JS drifts (the CSS marquee couldn't be swiped); the keyframes stay as the no-JS fallback */
 .marquee.mq-js{overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab}
 .marquee.mq-js::-webkit-scrollbar{display:none}

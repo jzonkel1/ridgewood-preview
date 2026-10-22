@@ -2,6 +2,18 @@
 document.documentElement.classList.remove('nj');
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 
+/* ---- maps: the Google embed pulls ~300KB, so it waits until it's ~2 screens away (it takes 2-3s to arrive), fades in
+   once loaded and retries once if it stalls. First in the file so an error further down can't leave the box empty, and
+   no loading="lazy" on the iframe (a second lazy layer on top of this one). Behind it sits an "Open in Google Maps"
+   card (map_box in build.py). 10/22: Jeffrey saw the map sometimes not load. ---- */
+(function(){var f=document.querySelectorAll('iframe[data-src]');if(!f.length)return;
+  function go(i){if(i.getAttribute('src'))return;
+    i.addEventListener('load',function(){i.classList.add('ok')});
+    i.src=i.dataset.src;setTimeout(function(){if(!i.classList.contains('ok'))i.src=i.dataset.src},12000)}
+  if(!('IntersectionObserver' in window)){f.forEach(go);return}
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(e.target);io.unobserve(e.target)}})},{rootMargin:'1500px 0px'});
+  f.forEach(function(i){io.observe(i)})})();
+
 /* ---- mobile menu + touch dropdowns ---- */
 (function(){
   var b=document.querySelector('.burger');
@@ -170,9 +182,6 @@ document.querySelectorAll('.marquee').forEach(function(m){
     last=t;requestAnimationFrame(tick)}
   new IntersectionObserver(function(es){es.forEach(function(e){var was=run;run=e.isIntersecting;if(run&&!was)requestAnimationFrame(tick)})},{threshold:.2}).observe(m);
 });
-
-/* maps: the Google embed pulls ~300KB of script, so it only loads when scrolled near (10/12 speed pass) */
-(function(){var f=document.querySelectorAll("iframe[data-src]");if(!f.length)return;function go(i){if(!i.getAttribute("src"))i.src=i.dataset.src}if(!("IntersectionObserver" in window)){f.forEach(go);return}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(e.target);io.unobserve(e.target)}})},{rootMargin:"400px 0px"});f.forEach(function(i){io.observe(i)})})();
 
 /* ---- online booking (10/21/26): our screens on Tommy's FieldPulse schedule ----
    Same two public calls his FieldPulse booking portal makes, straight from the browser (no key): GET open slots for a
