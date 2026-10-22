@@ -1,10 +1,10 @@
 {
  "reviews": {
-  "w": 1125,
-  "h": 1107,
+  "w": 2048,
+  "h": 2015,
   "sw": 1100,
   "spec": [
-   "condensers-field",
+   "upscaled/condensers-field-2560.png",
    "mute",
    "50% 55%",
    "50% 50%",
