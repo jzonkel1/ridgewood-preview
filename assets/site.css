@@ -1018,19 +1018,19 @@ span.rev-av{background:#455a64}
   #perks .swirl{left:-140px;right:auto;top:-60px;transform:scaleX(-1)}
 }
 
-/* home hero on phones, from Jeffrey's mockup (10/22): copy left-aligned, the truck's swirl decal showing on the right
-   (hero-swirl-m is cropped so its right edge cuts through the decal; anchored right so every phone keeps it), narrower
-   buttons, proof row in a card. The scrim is heavy behind the copy and lifts toward the decal. Other page heroes keep
-   the centred phone layout. */
+/* home hero on phones, from Jeffrey's mockup (10/22): copy left-aligned, narrower buttons, proof row in a card. Other
+   page heroes keep the centred phone layout. Photo (10/23): the whole truck in a clear band across the top
+   (hero-truck-m, tools/hero_truck_m.py: 66.5vw tall, falling off into navy from 57.2vw), the copy starting where it
+   fades. A tailgate close-up beside the copy "doesn't feel trustworthy". The zoom is anchored to the top so it never
+   pushes the roof rack out of frame. */
 @media (max-width:760px){
-  .hero .hero-inner{text-align:left;align-items:flex-start}
+  .hero{align-items:flex-start}
+  .hero .hero-inner{text-align:left;align-items:flex-start;padding-top:62vw}
   .hero h1{font-size:min(2.6rem,calc(10.4vw - 5px))}  /* "Keep your cool," fills the line and never wraps (320 up) */
   .hero-sub{max-width:17rem}
   .hero .cta-row{width:min(74%,290px);max-width:none;margin-inline:0}
-  .hero .hero-bg img{object-position:100% 50%}
-  .hero .hero-bg::after{background:
-    linear-gradient(90deg,rgba(6,11,20,.93) 0%,rgba(6,11,20,.9) 40%,rgba(6,11,20,.58) 68%,rgba(6,11,20,.2) 100%),
-    linear-gradient(180deg,rgba(6,11,20,.5) 0%,rgba(6,11,20,0) 16%,rgba(6,11,20,0) 64%,rgba(6,11,20,.9) 90%)}
+  .hero .hero-bg img{object-position:50% 0;transform-origin:50% 0}
+  .hero .hero-bg::after{background:linear-gradient(180deg,rgba(6,11,20,0) 0,rgba(6,11,20,0) 54vw,rgba(6,11,20,.6) 66.5vw)}
   .hero .trust{max-width:none;width:100%;margin-top:1.7rem;padding:1rem .2rem;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(8,14,26,.72)}
 }
 @media (max-width:380px){.hero .trust{padding-inline:0}.hero .trust li,.hero .trust li:first-child,.hero .trust li:last-child{padding:0 .25rem}.hero .trust b{font-size:.82rem}}
