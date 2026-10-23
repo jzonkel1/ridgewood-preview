@@ -517,6 +517,9 @@ h2{text-wrap:balance}
    drop-shadow filter, not text-shadow, so it also works on the gradient (background-clip:text) words.
    Arimo is ~1.6x wider than Big Shoulders, so every display size steps down. Fallback = Arial, nearly identical. */
 :root{--f-disp:'Arimo',Arial,'Helvetica Neue',Helvetica,sans-serif}
+/* 10/22/26: Tommy's NEW logo sets its wordmark in Open Sans Bold (rendered beside it), so the headlines follow it.
+   Same width as Arimo at every size, so no display size moves. Fallback stays Arial. */
+:root{--f-disp:'Open Sans',Arial,'Helvetica Neue',Helvetica,sans-serif}
 h1,h2,h3,.disp{font-weight:700;letter-spacing:.005em;line-height:1.08}
 /* ONE drop-shadow: two chained ones drew a hard dark box behind the heading wherever it crossed a swirl (10/22) */
 h1,h2,.disp{filter:drop-shadow(0 2px 5px rgba(0,0,0,.72))}
@@ -1031,3 +1034,17 @@ span.rev-av{background:#455a64}
   .hero .trust{max-width:none;width:100%;margin-top:1.7rem;padding:1rem .2rem;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(8,14,26,.72)}
 }
 @media (max-width:380px){.hero .trust{padding-inline:0}.hero .trust li,.hero .trust li:first-child,.hero .trust li:last-child{padding:0 .25rem}.hero .trust b{font-size:.82rem}}
+
+/* NEW LOGO (Tommy, 10/22/26): the accent behind sections is now his flame ring + snowflake emblem (tools/backgrounds.py).
+   Never mirrored: flipping it would alter his logo (the old swirl was flipped freely). It is a heavier shape than the
+   swirl's thin blades, so it sits a little fainter; in the club section the tailgate photo already shows the emblem at
+   >=1200px, so the big accent there steps right back. */
+.swirl{transform:none!important}
+@media (max-width:760px){.swirl{opacity:.22}.club .sw-club{opacity:.26}#book .sw-br{opacity:.26}}
+@media (min-width:1200px){.club .sw-club{opacity:.1}}
+/* footer: Tommy's horizontal lockup (as on the tailgate) */
+.ftr-brand img{height:46px}
+@media (max-width:380px){.ftr-brand img{height:40px}}
+/* club photo (the new emblem on the tailgate) only where the strip beside the card can hold the whole emblem; narrower
+   than that it was a sliver, so 1200-1499 drops it and the emblem accent behind the headline stays at full strength */
+@media (min-width:1200px) and (max-width:1499px){.club .club-photo{display:none}.club.has-bg::after{content:none}.club .sw-club{opacity:.2}}
